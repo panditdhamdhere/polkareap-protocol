@@ -1,0 +1,25 @@
+{
+  "name": "polkareap",
+  "version": "0.1.0",
+  "description": "Cross-chain yield aggregator on Polkadot Hub - harvest yield across parachains via XCM",
+  "scripts": {
+    "compile": "hardhat compile",
+    "test": "hardhat test",
+    "deploy": "hardhat ignition deploy ./ignition/modules/PolkaReap.js --network polkadotTestnet",
+    "deploy:local": "hardhat ignition deploy ./ignition/modules/PolkaReap.js --network localhost"
+  },
+  "keywords": [
+    "polkadot",
+    "xcm",
+    "defi",
+    "yield",
+    "cross-chain"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "@nomicfoundation/hardhat-verify": "^2.0.0",
+    "hardhat": "^2.27.0"
+  }
+}
