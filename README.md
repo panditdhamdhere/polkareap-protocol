@@ -29,9 +29,15 @@ polkareap/
 │   ├── interfaces/
 │   │   ├── IXcm.sol          # XCM precompile interface
 │   │   └── IYieldStrategy.sol # Yield strategy interface
+│   ├── libraries/
+│   │   └── ScaleCodec.sol    # SCALE encoding utilities
+│   ├── strategies/
+│   │   └── CrossChainYieldStrategy.sol  # XCM-enabled strategy
 │   ├── mocks/
 │   │   └── MockYieldStrategy.sol
 │   └── PolkaReap.sol         # Main aggregator contract
+├── scripts/xcm/              # XCM message builder (off-chain)
+├── frontend/                 # React dApp
 ├── test/
 ├── ignition/modules/
 ├── hardhat.config.ts
@@ -66,11 +72,18 @@ npm run test
 ### Deploy to Polkadot Hub Testnet
 
 1. Get testnet tokens from the [Polkadot Faucet](https://faucet.polkadot.io/)
-2. Set your private key (use `npx hardhat vars set PRIVATE_KEY` or export `PRIVATE_KEY` env var):
-3. Deploy:
-   ```bash
-   npm run deploy
-   ```
+2. Set your private key: `export PRIVATE_KEY=0x...`
+3. Deploy: `npm run deploy`
+4. Register strategies and set PolkaReap address on CrossChainYieldStrategy (see deployed addresses in output)
+
+### Run Frontend
+
+```bash
+cd frontend
+cp .env.example .env
+# Edit .env: set VITE_POLKAREAP_ADDRESS to your deployed contract
+npm install && npm run dev
+```
 
 ## XCM Integration
 
@@ -89,9 +102,11 @@ Cross-chain strategies will use these to:
 
 - [x] Core aggregator contract with strategy registration
 - [x] XCM precompile interface integration
-- [x] Mock strategy for testing
-- [ ] Cross-chain strategy implementation (XCM messages)
-- [ ] Frontend dApp
+- [x] ScaleCodec library for SCALE encoding
+- [x] CrossChainYieldStrategy with XCM execute/send
+- [x] XCM message builder (scripts/xcm)
+- [x] React frontend dApp
+- [ ] Token (ERC20) integration for real deposits
 - [ ] Integration with parachain DEXes/lending protocols
 
 ## License

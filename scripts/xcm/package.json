@@ -1,0 +1,14 @@
+{
+  "name": "@polkareap/xcm-builder",
+  "version": "0.1.0",
+  "description": "XCM message builder for PolkaReap - generates SCALE-encoded XCM for Polkadot Hub",
+  "type": "module",
+  "scripts": {
+    "build:transfer": "node buildTransfer.js",
+    "weigh": "node weighMessage.js"
+  },
+  "dependencies": {
+    "@polkadot/api": "^15.0.0",
+    "@polkadot/types": "^15.0.0"
+  }
+}

@@ -6,7 +6,8 @@
     "compile": "hardhat compile",
     "test": "hardhat test",
     "deploy": "hardhat ignition deploy ./ignition/modules/PolkaReap.js --network polkadotTestnet",
-    "deploy:local": "hardhat ignition deploy ./ignition/modules/PolkaReap.js --network localhost"
+    "deploy:local": "hardhat ignition deploy ./ignition/modules/PolkaReap.js --network localhost",
+    "xcm:build": "cd scripts/xcm && npm install && node buildTransfer.js"
   },
   "keywords": [
     "polkadot",

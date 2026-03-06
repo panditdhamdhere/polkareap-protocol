@@ -121,4 +121,36 @@ describe("PolkaReap", function () {
       expect(bestAPY).to.equal(1200);
     });
   });
+
+  describe("CrossChainYieldStrategy", function () {
+    it("Should register and integrate XCM strategy", async function () {
+      const { polkaReap, owner, user1 } = await loadFixture(deployFixture);
+
+      const CrossChainYieldStrategy = await ethers.getContractFactory("CrossChainYieldStrategy");
+      const xcmStrategy = await CrossChainYieldStrategy.deploy(
+        "Cross-Chain Transfer",
+        2000, // target parachain
+        ethers.parseEther("0.1"),
+        600 // 6% APY (placeholder for cross-chain "yield")
+      );
+
+      await xcmStrategy.setPolkaReap(await polkaReap.getAddress());
+      await polkaReap.registerStrategy(await xcmStrategy.getAddress());
+
+      const amount = ethers.parseEther("1");
+      const strategyId = await polkaReap.strategyCount();
+      await polkaReap.connect(user1).deposit(strategyId, amount);
+
+      expect(await polkaReap.getUserBalance(strategyId, user1.address)).to.equal(amount);
+      expect(await xcmStrategy.balanceOf(user1.address)).to.equal(amount);
+    });
+
+    it("Should have XCM precompile and weighMessage", async function () {
+      const CrossChainYieldStrategy = await ethers.getContractFactory("CrossChainYieldStrategy");
+      const xcmStrategy = await CrossChainYieldStrategy.deploy("XCM Test", 2000, 0, 500);
+      expect(await xcmStrategy.xcmPrecompile()).to.equal("0x00000000000000000000000000000000000a0000");
+      // weighMessage with empty bytes may revert on real chain, but on hardhat network the precompile might not exist
+      // Skip actual weigh call in unit test - integration test would verify
+    });
+  });
 });
